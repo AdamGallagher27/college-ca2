@@ -1,16 +1,18 @@
 import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { Context } from "../App"
+import { useNavigate } from "react-router-dom"
 
-const LoginForm = () => {
+
+const LoginForm = ({switchView}) => {
 
   const [isAuthenticated, onAuthenticated] = useContext(Context)
-
+  const navigate = useNavigate()
   const [error, setError] = useState('')
 
   const [formData, setFormData] = useState({
-    "email": "user12@gmail.com",
-    "password": "password"
+    "email": "",
+    "password": ""
   })
 
   const LOGIN_END_POINT = 'https://college-api.vercel.app/api/login'
@@ -48,14 +50,37 @@ const LoginForm = () => {
   })
 
   return (
-    <div>
-      <form onChange={handleForm}>
-        email : <input type='text' name="email" value={formData.email} />
-        password : <input type='text' name="password" value={formData.password} />
-        <button onClick={handleClick}>login</button>
-        {error ? error : ''}
-      </form>
+    // <div>
+    //   <form onChange={handleForm}>
+    //     email : <input type='text' name="email" value={formData.email} />
+    //     password : <input type='text' name="password" value={formData.password} />
+    //     <button onClick={handleClick}>login</button>
+    //     {error ? error : ''}
+    //   </form>
+    // </div>
+
+  
+    <form onChange={handleForm} className="card-body">
+    <h2 className='text-5xl'>Login</h2>
+    <p>Login to view college data</p>
+    <p>New user? <a onClick={switchView} className="link link-primary">Register</a></p>
+    <div className="form-control">
+      <label className="label">
+        <span className="label-text">Email</span>
+      </label>
+      <input type="email" name="email" placeholder="email" className="input input-bordered" />
     </div>
+    <div className="form-control">
+      <label className="label">
+        <span className="label-text">Password</span>
+      </label>
+      <input type="password" name="password" placeholder="password" className="input input-bordered" />
+  
+    </div>
+    <div className="form-control mt-6">
+      <button className="btn btn-primary" onClick={handleClick}>Login</button>
+    </div>
+  </form>
   )
 }
 

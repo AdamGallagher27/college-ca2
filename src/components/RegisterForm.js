@@ -2,13 +2,13 @@ import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { Context } from "../App"
 
-const RegisterForm = () => {
+const RegisterForm = ({switchView}) => {
   const [isAuthenticated, onAuthenticated] = useContext(Context)
 
   const [error, setError] = useState('')
 
   const [formData, setFormData] = useState({
-    "name" : "",
+    "name": "",
     "email": "",
     "password": ""
   })
@@ -21,7 +21,6 @@ const RegisterForm = () => {
 
     axios.post(REGISTER_END_POINT, formData)
       .then(response => {
-        console.log(response)
         checkIsAuthenicated(response)
       })
       .catch(error => {
@@ -49,15 +48,33 @@ const RegisterForm = () => {
   })
 
   return (
-    <div>
-      <form onChange={handleForm}>
-        name : <input type='text' name="name" value={formData.name} />
-        email : <input type='text' name="email" value={formData.email} />
-        password : <input type='text' name="password" value={formData.password} />
-        <button onClick={handleClick}>login</button>
-        {error ? error : ''}
-      </form>
-    </div>
+    <form className="card-body" onChange={handleForm}>
+      <h2 className='text-5xl'>Register</h2>
+      <p>Create an account to view college data</p>
+      <p>Already have an account? <a onClick={switchView} className="link link-primary">Login</a></p>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Name</span>
+        </label>
+        <input type="name" name="name" placeholder="name" className="input input-bordered" />
+      </div>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Email</span>
+        </label>
+        <input type="email" name="email" placeholder="email" className="input input-bordered" />
+      </div>
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Password</span>
+        </label>
+        <input type="password" name="password" placeholder="password" className="input input-bordered" />
+
+      </div>
+      <div className="form-control mt-6">
+        <button className="btn btn-primary" onClick={handleClick}>Register</button>
+      </div>
+    </form>
   )
 }
 
