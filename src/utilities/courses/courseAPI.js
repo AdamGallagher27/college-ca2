@@ -43,8 +43,8 @@ const getSelectedCourseEdit = (courseID, formSetter) => {
     }
   })
     .then((response) => {
-      const {title, code, description, points, level} = response.data.data
-      formSetter({title, code, description, points, level})
+      const { title, code, description, points, level } = response.data.data
+      formSetter({ title, code, description, points, level })
     })
     .catch(error => {
       console.error(error)
@@ -78,4 +78,21 @@ const createCourse = (formData, errorSetter) => {
 }
 
 
-export {getAllCourses, getSelectedCourseShow, getSelectedCourseEdit, editCourse, createCourse}
+const getCourseTitles = (courseSetter) => {
+  axios.get(COLLEGE_API_INDEX, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+    .then((response) => {
+      courseSetter(response.data.data.map(course => {
+        return {"title" : course.title, "id" : course.id}
+      }))
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
+
+
+export { getAllCourses, getSelectedCourseShow, getSelectedCourseEdit, editCourse, createCourse, getCourseTitles }

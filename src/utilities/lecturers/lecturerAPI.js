@@ -77,5 +77,21 @@ const createLecturer = (formData, errorSetter) => {
     })
 }
 
+const getLecturerNames = (lecturerSetter) => {
+  axios.get(LECTURERS_API_INDEX, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  })
+    .then((response) => {
+      lecturerSetter(response.data.data.map(lecturer => {
+        return {"name" : lecturer.name, "id" : lecturer.id}
+      }))
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
 
-export { getAllLecturers, getSelectedLecturerShow, getSelectedLecturerEdit, editLecturer, createLecturer }
+
+export { getAllLecturers, getSelectedLecturerShow, getSelectedLecturerEdit, editLecturer, createLecturer, getLecturerNames }
