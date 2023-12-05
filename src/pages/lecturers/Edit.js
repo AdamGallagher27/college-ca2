@@ -4,14 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Context } from '../../App'
 import { checkErrors, getErrorMessages } from '../../utilities/lecturers/lecturerValidate'
 import FormError from '../../components/FormError'
-
+import { updateForm } from '../../utilities/updateForm'
+import { formatServerErrors } from '../../utilities/formatServerErrors'
+import { getSelectedLecturerEdit, editLecturer } from '../../utilities/lecturers/lecturerAPI'
 
 const Edit = () => {
   const { lecturerID } = useParams()
-  const LECTURER_API_EDIT = `https://college-api.vercel.app/api/lecturers/${lecturerID}`
-  const LECTURER_API_SHOW = `https://college-api.vercel.app/api/lecturers/${lecturerID}`
   const [isAuthenticated, onAuthenticated] = useContext(Context)
-  const token = localStorage.getItem('AUTH_TOKEN')
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
@@ -24,59 +23,19 @@ const Edit = () => {
   const [errorMessages, setErrorMessages] = useState({})
 
   useEffect(() => {
-    getSelectedLecturer()
+    getSelectedLecturerEdit(lecturerID, setFormData)
   }, [])
 
-  const getSelectedLecturer = () => {
-    axios.get(LECTURER_API_SHOW, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      }
-    })
-      .then((response) => {
-        const { name, address, email, phone } = response.data.data
-        setFormData({ name, address, email, phone })
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
-
   const handleForm = (event => {
-    setFormData(prevState => ({
-      ...prevState,
-      [event.target.name]: event.target.value
-    }))
+    updateForm(event, setFormData)
   })
-
-  const editLecturer = () => {
-    axios.put(LECTURER_API_EDIT, formData, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      }
-    })
-      .then(response => {
-        navigate('/lecturers?success=edit-success')
-      })
-      .catch(error => {
-        setErrorMessages(formatServerErrors(error.response.data.errors))
-      })
-  }
-
-  const formatServerErrors = (errors) => {
-    let newErrorsObject = {}
-    for (const key in errors) {
-      newErrorsObject[key] = errors[key][0]
-    }
-
-    return newErrorsObject
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
     if (checkErrors(formData)) {
-      editLecturer()
+      editLecturer(lecturerID, formData, setErrorMessages)
+      navigate('/lecturers?success=edit-success-lecturer')
     }
     else {
       setErrorMessages(getErrorMessages(formData))

@@ -2,32 +2,17 @@ import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import { getSelectedLecturerShow } from '../../utilities/lecturers/lecturerAPI'
+
 const Show = () => {
   const { lecturerID } = useParams()
   const navigate = useNavigate()
-  const LECTURER_API_SHOW = `https://college-api.vercel.app/api/lecturers/${lecturerID}`
   const [isAuthenticated, onAuthenticated] = useContext(Context)
   const [lecturer, setLecturer] = useState([])
-  const token = localStorage.getItem('AUTH_TOKEN')
 
   useEffect(() => {
-    getSelectedLecturer()
+    getSelectedLecturerShow(lecturerID, setLecturer)
   }, [])
-
-  const getSelectedLecturer = () => {
-    axios.get(LECTURER_API_SHOW, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then((response) => {
-        console.log(response.data.data)
-        setLecturer(response.data.data)
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
 
   const editLecturer = () => {
     navigate(`/lecturers/edit/${lecturerID}`)

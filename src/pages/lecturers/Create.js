@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { Context } from '../../App'
 import { checkErrors, getErrorMessages } from '../../utilities/lecturers/lecturerValidate'
 import FormError from '../../components/FormError'
-
+import { updateForm } from '../../utilities/updateForm'
+import { createLecturer } from '../../utilities/lecturers/lecturerAPI'
 
 const Create = () => {
-  const LECTURER_API_CREATE = 'https://college-api.vercel.app/api/lecturers'
+  
   const [isAuthenticated, onAuthenticated] = useContext(Context)
-  const token = localStorage.getItem('AUTH_TOKEN')
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
@@ -22,40 +22,15 @@ const Create = () => {
   const [errorMessages, setErrorMessages] = useState({})
 
   const handleForm = (event => {
-    setFormData(prevState => ({
-      ...prevState,
-      [event.target.name]: event.target.value
-    }))
+    updateForm(event, setFormData)
   })
-
-  const createLecturer = () => {
-    axios.post(LECTURER_API_CREATE, formData, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        navigate('/lecturers?success=create-success')
-      })
-      .catch(error => {
-        console.error(error)
-        setErrorMessages(formatServerErrors(error.response.data.errors))
-      })
-  }
-
-  const formatServerErrors = (errors) => {
-    let newErrorsObject = {}
-    for(const key in errors){
-      newErrorsObject[key] = errors[key][0]
-    }
-    return newErrorsObject
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     
     if (checkErrors(formData)) {
-      createLecturer()
+      createLecturer(formData, setErrorMessages)
+      navigate('/lecturers?success=create-success-lecturer')
     }
     else{
       setErrorMessages(getErrorMessages(formData))

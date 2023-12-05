@@ -5,44 +5,28 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useNotification from '../../utilities/useNotification'
 import NotificationBox from '../../components/NotificationBox'
 import LecturerTable from '../../components/LecturerTable';
+import { catchSuccessParam } from '../../utilities/catchSuccessParam';
+import { getAllLecturers } from '../../utilities/lecturers/lecturerAPI';
 
 const Index = () => {
-  const LECTURERS_API_INDEX = 'https://college-api.vercel.app/api/lecturers'
+  
   const [isAuthenticated, onAuthenticated] = useContext(Context)
   const [lecturers, setLecturers] = useState([])
-  const token = localStorage.getItem('AUTH_TOKEN')
   const {visible, text, showNotification} = useNotification()
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllLecturers()
+    getAllLecturers(setLecturers)
 
     const urlParams = new URLSearchParams(location.search);
     const successParam = urlParams.get('success');
 
-    if (successParam === 'edit-success') {
-      showNotification('successfully updated course', 1500)
-      navigate('/lecturers')
-    }
-
-    if (successParam === 'create-success') {
-      showNotification('successfully created course', 1500)
+    if (successParam) {
+      showNotification(catchSuccessParam(successParam), 1500)
       navigate('/lecturers')
     }
   }, [])
-
-  const getAllLecturers = () => {
-    axios.get(LECTURERS_API_INDEX, {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then((response) => {
-        console.log(response.data.data)
-        setLecturers(response.data.data)
-      })
-  }
 
   if (!isAuthenticated) return <>you must be authenticated</>
 
