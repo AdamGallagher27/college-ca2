@@ -16,6 +16,14 @@ const catchSuccessParam = (successParam) => {
   if (successParam === 'create-success-lecturer') {
     return 'successfully created lecturer'
   }
+
+  if(successParam === 'create-success-enrolment') {
+    return 'successfully created an enrolment'
+  }
+
+  if(successParam === 'edit-success-enrolment') {
+    return 'successfully edited an enrolment'
+  }
 }
 
 

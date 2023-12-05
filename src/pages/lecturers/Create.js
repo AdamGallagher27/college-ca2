@@ -41,7 +41,7 @@ const Create = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 rounded-md shadow-md bg-base-200">
-      <h2 className="text-2xl font-bold mb-4">Create a Course</h2>
+      <h2 className="text-2xl font-bold mb-4">Create a Lecturer</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <FormError errorMessage={errorMessages.name} />
