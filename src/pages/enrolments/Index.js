@@ -21,7 +21,7 @@ const Index = () => {
     const successParam = urlParams.get('success');
 
     if (successParam) {
-      showNotification(catchSuccessParam(successParam), 1500)
+      showNotification(catchSuccessParam(successParam), 3000)
       navigate('/enrolments')
     }
   }, [])

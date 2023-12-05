@@ -2,7 +2,9 @@ import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getSelectedLecturerShow } from '../../utilities/lecturers/lecturerAPI'
+import { deleteLecturer, getSelectedLecturerShow } from '../../utilities/lecturers/lecturerAPI'
+import DeleteButton from '../../components/DeleteButton'
+import EnrolmentCard from '../../components/EnrolmentCard'
 
 const Show = () => {
   const { lecturerID } = useParams()
@@ -18,6 +20,15 @@ const Show = () => {
     navigate(`/lecturers/edit/${lecturerID}`)
   }
 
+  const deleteMethod = () => {
+    deleteLecturer(lecturer)
+    navigate('/lecturers?success=delete-success-lecturer')
+  }
+
+  const enrolmentCards = !lecturer.enrolments ? '':  lecturer.enrolments.map((enrolment, index) => {
+    return <EnrolmentCard key={index} name={enrolment.course.title} />
+  })
+
   if (!isAuthenticated) return <>you must be authenticated</>
 
   if (lecturer.length === 0) return <>loading</>
@@ -30,17 +41,19 @@ const Show = () => {
             <h1 className="text-5xl mb-4 font-bold">{lecturer.name}</h1>
             <p className="py-1">Address : {lecturer.address}</p>
             <p className="py-1">Phone : {lecturer.email}</p>
-            <button onClick={editLecturer} className="btn btn-primary mt-4 mb-4">Edit</button>
+            <div className='flex gap-4 align-middle	pt-4'>
+            <button onClick={editLecturer} className="btn btn-primary">Edit</button>
+            <DeleteButton buttonText='Delete Lecturer' deleteMethod={deleteMethod} />
+            </div>
           </div>
         </div>
       </div>
 
-      {lecturer.enrolments.length === 0 ? '' : <div className='ml-9'>
+      {lecturer.enrolments.length === 0 ? '' : <div className='ml-9 mt-9'>
         <div className='ml-9'>
           <div>
             <h1 className="text-3xl mb-4 font-bold">Enrolments</h1>
-            <p>{lecturer.enrolments ? JSON.stringify(lecturer.enrolments) : ''}</p>
-            <button className="btn btn-primary mt-4">Edit</button>
+            {enrolmentCards}
           </div>
         </div>
       </div>}

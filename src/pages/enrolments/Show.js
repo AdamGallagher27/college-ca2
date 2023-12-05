@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getSelectedEnrolmentShow } from '../../utilities/enrolments/enrolementsAPI'
+import { deleteEnrolment, getSelectedEnrolmentShow } from '../../utilities/enrolments/enrolementsAPI'
+import DeleteButton from '../../components/DeleteButton'
 
 const Show = () => {
 
@@ -16,6 +17,11 @@ const Show = () => {
 
   const editEnrolment = () => {
     navigate(`/enrolments/edit/${enrolmentID}`)
+  }
+
+  const deleteMethod = ()=> {
+    deleteEnrolment(enrolment)
+    navigate('/enrolments?success=delete-success-enrolment')
   }
 
   if (!isAuthenticated) return <>you must be authenticated</>
@@ -34,7 +40,10 @@ const Show = () => {
             <p className="py-1">Description : {enrolment.course.description}</p>
 
             <p className="py-1">Status : {enrolment.status}</p>
-            <button onClick={editEnrolment} className="btn btn-primary mt-4">Edit</button>
+            <div className='flex gap-4 align-middle	pt-4'>
+            <button onClick={editEnrolment} className="btn btn-primary">Edit</button>
+            <DeleteButton buttonText='Delete Enrolment' deleteMethod={deleteMethod} />
+            </div>
           </div>
         </div>
       </div>

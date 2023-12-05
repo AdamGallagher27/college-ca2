@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getSelectedCourseShow } from '../../utilities/courses/courseAPI'
+import { deleteCourse, getSelectedCourseShow } from '../../utilities/courses/courseAPI'
 import EnrolmentCard from '../../components/EnrolmentCard'
+import DeleteButton from '../../components/DeleteButton'
 
 const Show = () => {
   const { courseID } = useParams()
@@ -18,8 +19,13 @@ const Show = () => {
     navigate(`/courses/edit/${courseID}`)
   }
 
+  const deleteMethod = () => {
+    deleteCourse(course)
+    navigate('/courses?success=delete-success-course')
+  }
+
   const enrolmentCards = !course.enrolments ? '':  course.enrolments.map((enrolment, index) => {
-    return <EnrolmentCard key={index} enrolment={enrolment} />
+    return <EnrolmentCard key={index} name={enrolment.lecturer.name} />
   })
 
   if (!isAuthenticated) return <>you must be authenticated</>
@@ -35,7 +41,11 @@ const Show = () => {
             <p className="py-1">Code : {course.code}</p>
             <p className="py-1">Points : {course.points}</p>
             <p className="py-1">Level : {course.level}</p>
-            <button onClick={editCourse} className="btn btn-primary mt-4">Edit</button>
+            <div className='flex gap-4 align-middle	pt-4'>
+            <button onClick={editCourse} className="btn btn-primary">Edit</button>
+            <DeleteButton buttonText='Delete Course' deleteMethod={deleteMethod} />
+            
+            </div>
           </div>
         </div>
       </div>

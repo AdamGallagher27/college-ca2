@@ -5,6 +5,7 @@ const ENROLMENTS_API_INDEX = 'https://college-api.vercel.app/api/enrolments'
 const ENROLMENTS_API_SHOW = 'https://college-api.vercel.app/api/enrolments/'
 const ENROLMENTS_API_CREATE = 'https://college-api.vercel.app/api/enrolments/'
 const ENROLMENTS_API_EDIT = 'https://college-api.vercel.app/api/enrolments/'
+const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
 
 
 const token = localStorage.getItem('AUTH_TOKEN')
@@ -76,5 +77,13 @@ const editEnrolment = (enrolmentID, formData, errorSetter) => {
     })
 }
 
+const deleteEnrolment = (enrolment) => {
+  axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .catch(error => {
+    console.error(error)
+  })
+}
 
-export { getAllEnrolments, getSelectedEnrolmentShow, createEnrolment, getSelectedEnrolmentEdit, editEnrolment }
+export { getAllEnrolments, getSelectedEnrolmentShow, createEnrolment, getSelectedEnrolmentEdit, editEnrolment, deleteEnrolment }

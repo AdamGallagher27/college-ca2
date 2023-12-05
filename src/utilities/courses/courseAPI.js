@@ -5,6 +5,8 @@ const COLLEGE_API_INDEX = 'https://college-api.vercel.app/api/courses'
 const COLLEGE_API_SHOW = `https://college-api.vercel.app/api/courses/`
 const COLLEGE_API_CREATE = 'https://college-api.vercel.app/api/courses'
 const COLLEGE_API_EDIT = `https://college-api.vercel.app/api/courses/`
+const COLLEGE_API_DELETE = `https://college-api.vercel.app/api/courses/`
+const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
 const token = localStorage.getItem('AUTH_TOKEN')
 
 
@@ -86,7 +88,7 @@ const getCourseTitles = (courseSetter) => {
   })
     .then((response) => {
       courseSetter(response.data.data.map(course => {
-        return {"title" : course.title, "id" : course.id}
+        return { "title": course.title, "id": course.id }
       }))
     })
     .catch(error => {
@@ -94,5 +96,25 @@ const getCourseTitles = (courseSetter) => {
     })
 }
 
+const deleteCourseEnrolments = (course) => {
+  course.enrolments.forEach((enrolment) => {
+    axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .catch((error) => {
+        console.log(error);
+      });
+  })
+}
 
-export { getAllCourses, getSelectedCourseShow, getSelectedCourseEdit, editCourse, createCourse, getCourseTitles }
+const deleteCourse = (course) => {
+  deleteCourseEnrolments(course)
+  axios.delete(COLLEGE_API_DELETE + course.id, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+export { getAllCourses, getSelectedCourseShow, getSelectedCourseEdit, editCourse, createCourse, getCourseTitles, deleteCourse }

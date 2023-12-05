@@ -6,6 +6,9 @@ const LECTURERS_API_INDEX = 'https://college-api.vercel.app/api/lecturers'
 const LECTURERS_API_SHOW = 'https://college-api.vercel.app/api/lecturers/'
 const LECTURERS_API_EDIT = 'https://college-api.vercel.app/api/lecturers/'
 const LECTURERS_API_CREATE = 'https://college-api.vercel.app/api/lecturers/'
+const LECTURERS_API_DELETE = 'https://college-api.vercel.app/api/lecturers/'
+const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
+
 
 const token = localStorage.getItem('AUTH_TOKEN')
 
@@ -85,7 +88,7 @@ const getLecturerNames = (lecturerSetter) => {
   })
     .then((response) => {
       lecturerSetter(response.data.data.map(lecturer => {
-        return {"name" : lecturer.name, "id" : lecturer.id}
+        return { "name": lecturer.name, "id": lecturer.id }
       }))
     })
     .catch(error => {
@@ -93,5 +96,25 @@ const getLecturerNames = (lecturerSetter) => {
     })
 }
 
+const deleteLecturerEnrolments = (lecturer) => {
+  lecturer.enrolments.forEach((enrolment) => {
+    axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .catch((error) => {
+        console.log(error);
+      });
+  })
+}
 
-export { getAllLecturers, getSelectedLecturerShow, getSelectedLecturerEdit, editLecturer, createLecturer, getLecturerNames }
+const deleteLecturer = (lecturer) => {
+  deleteLecturerEnrolments(lecturer)
+  axios.delete(LECTURERS_API_DELETE + lecturer.id, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export { getAllLecturers, getSelectedLecturerShow, getSelectedLecturerEdit, editLecturer, createLecturer, getLecturerNames, deleteLecturer }
