@@ -9,6 +9,11 @@ import CourseShow from './pages/courses/Show'
 import CourseCreate from './pages/courses/Create'
 import CourseEdit from './pages/courses/Edit'
 
+import LecturerIndex from './pages/lecturers/Index'
+import LecturerShow from './pages/lecturers/Show'
+import LecturerCreate from './pages/lecturers/Create'
+import LecturerEdit from './pages/lecturers/Edit'
+
 import { useEffect, useState } from 'react';
 
 export const Context = React.createContext()
@@ -46,6 +51,10 @@ function App() {
             <Route path='/courses/show/:courseID' element={<CourseShow />} />
             <Route path='/courses/create' element={<CourseCreate />} />
             <Route path='/courses/edit/:courseID' element={<CourseEdit />} />
+            <Route path='lecturers' element={<LecturerIndex />} />
+            <Route path='lecturers/:lecturerID' element={<LecturerShow />} />
+            <Route path='lecturers/create' element={<LecturerCreate />} />
+            <Route path='lecturers/edit/:lecturerID' element={<LecturerEdit />} />
           </Routes>
         </Router>
       </Context.Provider>
