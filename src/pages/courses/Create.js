@@ -45,7 +45,7 @@ const Create = () => {
     })
       .then(response => {
         // console.log(response)
-        navigate('/courses', {success : 'course created successfully'})
+        navigate('/courses?success=create-success')
       })
       .catch(error => {
         setErrorMessages(formatServerErrors(error.response.data.errors))

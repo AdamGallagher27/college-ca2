@@ -52,7 +52,8 @@ const Show = () => {
           </div>
         </div>
       </div>
-      <div className="hero">
+
+      {!course.enrolments ? '' : <div className="hero">
         <div className="hero-content flex-col lg:flex-row">
           <div>
             <h1 className="text-3xl mb-4 font-bold">Enrolments</h1>
@@ -60,8 +61,7 @@ const Show = () => {
             <button className="btn btn-primary mt-4">Edit</button>
           </div>
         </div>
-      </div>
-        
+      </div>}
     </>
 
   )
