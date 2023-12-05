@@ -10,7 +10,7 @@ const LecturerRow = ({ lecturer, index }) => {
   }
 
   return (
-    <tr onClick={showLecturer}>
+    <tr className="hover" onClick={showLecturer}>
         <th>
           <label>
             <p>{index}</p>
