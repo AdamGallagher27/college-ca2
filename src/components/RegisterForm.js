@@ -1,11 +1,14 @@
 import { useState, useEffect, useContext } from "react"
 import axios from "axios"
 import { Context } from "../App"
+import { formatServerErrors } from "../utilities/formatServerErrors"
+import FormError from "./FormError"
+import { updateForm } from "../utilities/updateForm"
 
-const RegisterForm = ({switchView}) => {
+const RegisterForm = ({ switchView }) => {
+
   const [isAuthenticated, onAuthenticated] = useContext(Context)
-
-  const [error, setError] = useState('')
+  const [errorMessages, setErrorMessages] = useState('')
 
   const [formData, setFormData] = useState({
     "name": "",
@@ -24,7 +27,8 @@ const RegisterForm = ({switchView}) => {
         checkIsAuthenicated(response)
       })
       .catch(error => {
-        handleError(error)
+        // console.error(error)
+        setErrorMessages(formatServerErrors(error.response.data))
       })
   }
 
@@ -34,17 +38,8 @@ const RegisterForm = ({switchView}) => {
     }
   }
 
-  const handleError = (error) => {
-    if (error.response.status === 401) {
-      setError('Unauthorized')
-    }
-  }
-
   const handleForm = (event => {
-    setFormData(prevState => ({
-      ...prevState,
-      [event.target.name]: event.target.value
-    }))
+    updateForm(event, setFormData)
   })
 
   return (
@@ -53,18 +48,21 @@ const RegisterForm = ({switchView}) => {
       <p>Create an account to view college data</p>
       <p>Already have an account? <a onClick={switchView} className="link link-primary">Login</a></p>
       <div className="form-control">
+        <FormError errorMessage={errorMessages.name} />
         <label className="label">
           <span className="label-text">Name</span>
         </label>
         <input type="name" name="name" placeholder="name" className="input input-bordered" />
       </div>
       <div className="form-control">
+        <FormError errorMessage={errorMessages.email} />
         <label className="label">
           <span className="label-text">Email</span>
         </label>
         <input type="email" name="email" placeholder="email" className="input input-bordered" />
       </div>
       <div className="form-control">
+        <FormError errorMessage={errorMessages.password} />
         <label className="label">
           <span className="label-text">Password</span>
         </label>

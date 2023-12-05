@@ -26,7 +26,7 @@ const Index = () => {
       showNotification(catchSuccessParam(successParam), 1500)
       navigate('/courses')
     }
-  }, [])
+  }, [isAuthenticated])
 
   
   if (!isAuthenticated) return <>you must be authenticated</>

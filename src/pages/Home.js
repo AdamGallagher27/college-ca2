@@ -16,8 +16,8 @@ const Home = () => {
   return (
     <div className="hero">
       {isAuthenticated ? navigate('/courses') : ''}
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="card w-96 shrink-0 w-full max-w-sm shadow-2xl bg-base-200 mt-96">
+      <div>
+        <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-200 mt-96">
           {showRegister ? <RegisterForm switchView={switchView} /> : <LoginForm switchView={switchView} />}
         </div>
       </div>
