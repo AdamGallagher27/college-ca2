@@ -1,0 +1,22 @@
+import { useState } from "react";
+
+// https://medium.com/@johanpvandongen/temporary-notification-in-react-b3f2e85962d8s
+
+export default function useNotification(){
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState("");
+
+  const showNotification = (text, miliSeconds) => {
+    setVisible(true);
+    setText(text);
+    setTimeout(() => {
+      setVisible(false);
+    }, miliSeconds);
+  };
+
+  return {
+    visible,
+    text,
+    showNotification
+  }
+}
