@@ -9,10 +9,17 @@ import { formatServerErrors } from '../../utilities/formatServerErrors'
 import { getSelectedLecturerEdit, editLecturer } from '../../utilities/lecturers/lecturerAPI'
 
 const Edit = () => {
+
+  // lecturer id from url
   const { lecturerID } = useParams()
+
+  // authentication functions coming from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // navigation function
   const navigate = useNavigate()
 
+  // state variable for formdata
   const [formData, setFormData] = useState({
     "name": "",
     "address": "",
@@ -20,16 +27,21 @@ const Edit = () => {
     "phone": "",
   })
 
+  // state variable for client / server error messages
   const [errorMessages, setErrorMessages] = useState({})
 
+  // on first load get the selected lecturer
   useEffect(() => {
     getSelectedLecturerEdit(lecturerID, setFormData)
   }, [])
 
+  // on form change update form state variable
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
+  // if there is no client errors make create request to api
+  // other wise set error messages
   const handleSubmit = (event) => {
     event.preventDefault()
 

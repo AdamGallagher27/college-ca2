@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
-import NavBar from '../../components/NavBar'
 import CourseTable from '../../components/CourseTable'
 import { useLocation, useNavigate } from 'react-router-dom';
 import useNotification from '../../utilities/useNotification'
@@ -10,12 +9,21 @@ import { getAllCourses } from '../../utilities/courses/courseAPI'
 
 const Index = () => {
 
+  // authentication functions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // state variable for all courses
   const [courses, setCourses] = useState([])
-  const {visible, text, showNotification} = useNotification()
+
+  // location vairalbe / navigate function
   const location = useLocation();
   const navigate = useNavigate();
 
+  // custom hook for success notifications
+  const {visible, text, showNotification} = useNotification()
+  
+  // on first load get all lecturers
+  // if there is a success message in the url show the success component
   useEffect(() => {
     getAllCourses(setCourses)
 
@@ -27,7 +35,6 @@ const Index = () => {
       navigate('/courses')
     }
   }, [isAuthenticated])
-
   
   if (!isAuthenticated) return <>you must be authenticated</>
 

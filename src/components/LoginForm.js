@@ -8,18 +8,27 @@ import { updateForm } from "../utilities/updateForm"
 
 const LoginForm = ({ switchView }) => {
 
-  const [isAuthenticated, onAuthenticated] = useContext(Context)
+  // navigate function
   const navigate = useNavigate()
+
+  // authentication functions from app.js context
+  const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // variable to hold error messages which get set from server errors
   const [errorMessages, setErrorMessages] = useState('')
 
+  // form state variable
   const [formData, setFormData] = useState({
     "email": "",
     "password": ""
   })
 
-
   const LOGIN_END_POINT = 'https://college-api.vercel.app/api/login'
 
+
+  // on click make login request to api
+  // if successful authenticate the user 
+  // if unsuccesful set errro messages
   const handleClick = (event) => {
 
     event.preventDefault()
@@ -33,12 +42,14 @@ const LoginForm = ({ switchView }) => {
       })
   }
 
+  // check if the user was authenticated 
   const checkIsAuthenicated = (response) => {
     if (response.status === 200) {
       onAuthenticated(true, response.data.token)
     }
   }
 
+  // form handler function
   const handleForm = (event => {
     updateForm(event, setFormData)
   })

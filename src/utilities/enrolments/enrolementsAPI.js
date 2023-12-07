@@ -10,6 +10,7 @@ const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
 
 const token = localStorage.getItem('AUTH_TOKEN')
 
+// get all enrolments
 const getAllEnrolments = (enrolmentsSetter) => {
   axios.get(ENROLMENTS_API_INDEX, {
     headers: {
@@ -24,6 +25,7 @@ const getAllEnrolments = (enrolmentsSetter) => {
     })
 }
 
+// get selected enrolment for show
 const getSelectedEnrolmentShow = (enrolmentID, enrolmentSetter) => {
   axios.get(ENROLMENTS_API_SHOW + enrolmentID, {
     headers: {
@@ -38,6 +40,7 @@ const getSelectedEnrolmentShow = (enrolmentID, enrolmentSetter) => {
     })
 }
 
+// get the selected enrolment for edit form
 const getSelectedEnrolmentEdit = (enrolmentID, formSetter) => {
   axios.get(ENROLMENTS_API_SHOW + enrolmentID, {
     headers: {
@@ -53,6 +56,7 @@ const getSelectedEnrolmentEdit = (enrolmentID, formSetter) => {
     })
 }
 
+// create a new enrolment
 const createEnrolment = (formData, errorSetter) => {
   axios.post(ENROLMENTS_API_CREATE, formData, {
     headers: {
@@ -64,6 +68,7 @@ const createEnrolment = (formData, errorSetter) => {
     })
 }
 
+// edit enrolment
 const editEnrolment = (enrolmentID, formData, errorSetter) => {
   axios.put(ENROLMENTS_API_EDIT + enrolmentID, formData, {
     headers: {
@@ -77,6 +82,7 @@ const editEnrolment = (enrolmentID, formData, errorSetter) => {
     })
 }
 
+// delete enrolment
 const deleteEnrolment = (enrolment) => {
   axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
     headers: { Authorization: `Bearer ${token}` }

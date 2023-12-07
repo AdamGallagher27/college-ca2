@@ -7,9 +7,13 @@ import { updateForm } from "../utilities/updateForm"
 
 const RegisterForm = ({ switchView }) => {
 
+  // authentication functiontions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // state variable to hold server error messages 
   const [errorMessages, setErrorMessages] = useState('')
 
+  // from data state varaible
   const [formData, setFormData] = useState({
     "name": "",
     "email": "",
@@ -18,6 +22,9 @@ const RegisterForm = ({ switchView }) => {
 
   const REGISTER_END_POINT = 'https://college-api.vercel.app/api/register'
 
+  // on click make register request to api
+  // if successful authenticate the user 
+  // if unsuccesful set error messages
   const handleClick = (event) => {
 
     event.preventDefault()
@@ -27,7 +34,6 @@ const RegisterForm = ({ switchView }) => {
         checkIsAuthenicated(response)
       })
       .catch(error => {
-        // console.error(error)
         setErrorMessages(formatServerErrors(error.response.data))
       })
   }
@@ -38,6 +44,7 @@ const RegisterForm = ({ switchView }) => {
     }
   }
 
+  // set the form state variable on form change
   const handleForm = (event => {
     updateForm(event, setFormData)
   })

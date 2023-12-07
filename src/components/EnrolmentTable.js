@@ -8,16 +8,19 @@ const EnrolmentTable = ({ enrolments }) => {
     resetPagination()
   }, [])
 
-  const [paginationLimit, setPaginationLimit] = useState(6)
+  // navigate function
   const navigate = useNavigate()
-
-  const resetPagination = () => setPaginationLimit(6)
+  
+  const [paginationLimit, setPaginationLimit] = useState(6)
+  const resetPagination = () => setPaginationLimit(11)
   const loadMoreRows = () => setPaginationLimit(paginationLimit + 5)
 
+  // go to the enrolment create page
   const createEnrolment = () => {
     navigate('/enrolments/create')
   }
 
+  // variable to hold enrolment rows
   const enrolmentsRows = enrolments.map((enrolment, index) => {
     if(index < paginationLimit) {
       return <EnrolmentRow key={index} enrolment={enrolment} index={index} />

@@ -4,20 +4,19 @@ import { Context } from '../App'
 
 const NavBar = () => {
 
-  let logoutButton = ''
+  // authentication code from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // function to handle navigation
   const navigate = useNavigate()
 
+  // this is called when the user logs out
   const handleClick = () => {
     onAuthenticated(false)
     navigate('/')
   }
 
   return (
-    // <div>
-    //   <Link to='/'>Home</Link>
-    //   {isAuthenticated ? <button onClick={handleClick}>Log Out</button> : ''}
-    // </div>
     <div className="navbar bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">

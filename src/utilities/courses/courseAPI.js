@@ -9,7 +9,7 @@ const COLLEGE_API_DELETE = `https://college-api.vercel.app/api/courses/`
 const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
 const token = localStorage.getItem('AUTH_TOKEN')
 
-
+// get all courses
 const getAllCourses = (courseSetter) => {
   axios.get(COLLEGE_API_INDEX, {
     headers: {
@@ -24,6 +24,7 @@ const getAllCourses = (courseSetter) => {
     })
 }
 
+// get the selcted course for show view
 const getSelectedCourseShow = (courseID, courseSetter) => {
   axios.get(COLLEGE_API_SHOW + courseID, {
     headers: {
@@ -38,6 +39,7 @@ const getSelectedCourseShow = (courseID, courseSetter) => {
     })
 }
 
+// get selected course for edit form
 const getSelectedCourseEdit = (courseID, formSetter) => {
   axios.get(COLLEGE_API_SHOW + courseID, {
     headers: {
@@ -53,6 +55,8 @@ const getSelectedCourseEdit = (courseID, formSetter) => {
     })
 }
 
+
+// edit course
 const editCourse = (courseID, formData, errorSetter) => {
   axios.put(COLLEGE_API_EDIT + courseID, formData, {
     headers: {
@@ -68,6 +72,7 @@ const editCourse = (courseID, formData, errorSetter) => {
     })
 }
 
+// create a new course
 const createCourse = (formData, errorSetter) => {
   axios.post(COLLEGE_API_CREATE, formData, {
     headers: {
@@ -79,7 +84,7 @@ const createCourse = (formData, errorSetter) => {
     })
 }
 
-
+// get course titles / ids for drop down
 const getCourseTitles = (courseSetter) => {
   axios.get(COLLEGE_API_INDEX, {
     headers: {
@@ -96,6 +101,7 @@ const getCourseTitles = (courseSetter) => {
     })
 }
 
+// delete course enrolments
 const deleteCourseEnrolments = (course) => {
   course.enrolments.forEach((enrolment) => {
     axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
@@ -107,6 +113,7 @@ const deleteCourseEnrolments = (course) => {
   })
 }
 
+// delete the coures
 const deleteCourse = (course) => {
   deleteCourseEnrolments(course)
   axios.delete(COLLEGE_API_DELETE + course.id, {

@@ -6,19 +6,29 @@ import DeleteButton from '../../components/DeleteButton'
 
 const Show = () => {
 
+  // enrolment id from url
   const { enrolmentID } = useParams()
-  const navigate = useNavigate()
-  const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // state variable for selected enrolment 
   const [enrolment, setEnrolment] = useState([])
 
+  // function to handle navigation
+  const navigate = useNavigate()
+
+  // authentication functions from app.js context
+  const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // on first load get selected enrolment
   useEffect(() => {
     getSelectedEnrolmentShow(enrolmentID, setEnrolment)
   }, [])
 
+  // navigate to edit enrolment form
   const editEnrolment = () => {
     navigate(`/enrolments/edit/${enrolmentID}`)
   }
 
+  // delete helper method
   const deleteMethod = ()=> {
     deleteEnrolment(enrolment)
     navigate('/enrolments?success=delete-success-enrolment')

@@ -1,3 +1,4 @@
+// format server errors for form error components
 const formatServerErrors = (errors) => {
   let newErrorsObject = {}
   for (const key in errors) {

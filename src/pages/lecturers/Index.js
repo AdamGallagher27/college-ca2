@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
 import { Context } from '../../App'
-import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom';
 import useNotification from '../../utilities/useNotification'
 import NotificationBox from '../../components/NotificationBox'
@@ -10,12 +9,21 @@ import { getAllLecturers } from '../../utilities/lecturers/lecturerAPI';
 
 const Index = () => {
   
+  // authentication code from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // state variable to hold all lecturers
   const [lecturers, setLecturers] = useState([])
+
+  // custom hook for showing success notification
   const {visible, text, showNotification} = useNotification()
+
+  // navigate function / current location variable
   const location = useLocation();
   const navigate = useNavigate();
 
+  // on first load get all lecturers
+  // if success message in url show success notification
   useEffect(() => {
     getAllLecturers(setLecturers)
 

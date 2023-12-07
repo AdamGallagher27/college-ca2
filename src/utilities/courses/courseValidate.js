@@ -1,4 +1,5 @@
 
+// regular expression for course form
 const fieldRegex = {
   "title": /^[a-zA-Z0-9\s]+$/,
   "code": /^[a-zA-Z0-9\s]+$/,
@@ -7,6 +8,7 @@ const fieldRegex = {
   "level": /^[1-9]\d*$/
 }
 
+// get the error messages
 const getErrorMessages = (formData) => {
   const possibleLevels = ["7", "8", "9", 7, 8, 9]
   let errorMessages = {}
@@ -38,6 +40,7 @@ const getErrorMessages = (formData) => {
   return errorMessages
 }
 
+// check if an error exists
 const checkErrors = (formData) => {
   return Object.keys(getErrorMessages(formData)).length === 0
 }

@@ -1,3 +1,4 @@
+// update form state variable
 const updateForm = (event, formSetter) => {
   formSetter(prevState => ({
     ...prevState,

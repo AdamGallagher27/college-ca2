@@ -1,4 +1,5 @@
 
+// check success param and return success notification
 const catchSuccessParam = (successParam) => {
 
   if (successParam === 'edit-success-course') {

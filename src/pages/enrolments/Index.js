@@ -9,11 +9,18 @@ import NotificationBox from '../../components/NotificationBox'
 
 const Index = () => {
 
+  // state variable for enrolments
   const [enrolments, setEnrolments] = useState([])
-  const { visible, text, showNotification } = useNotification()
+
+  // current location / navigate function
   const location = useLocation();
   const navigate = useNavigate();
 
+  // custom hook for showing success notifcation
+  const { visible, text, showNotification } = useNotification()
+  
+  // on first load get all enrolments
+  // if success message in url show success notification
   useEffect(() => {
     getAllEnrolments(setEnrolments)
 

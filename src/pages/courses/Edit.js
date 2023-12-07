@@ -10,10 +10,16 @@ import { getSelectedCourseEdit, editCourse } from '../../utilities/courses/cours
 
 
 const Edit = () => {
+  // get course id from param
   const { courseID } = useParams()
+
+  // authentication functions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // navigation function
   const navigate = useNavigate()
 
+  // state variable to hold form data
   const [formData, setFormData] = useState({
     "title": "",
     "code": "",
@@ -22,19 +28,23 @@ const Edit = () => {
     "level": "7"
   })
 
+  // state variable  to hold client / server error messages
   const [errorMessages, setErrorMessages] = useState({})
   
+  // on first load get selected course for edit form
   useEffect(() => {
     getSelectedCourseEdit(courseID, setFormData)
   }, [])
 
+  // on form change update form state variable
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
-  
+  // submit edit form 
+  // if no client errors edit the course in the api
+  // else set error messages from client validation
   const handleSubmit = (event) => {
-    console.log(formData)
     event.preventDefault()
     
     if (checkErrors(formData)) {

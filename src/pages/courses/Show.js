@@ -6,19 +6,29 @@ import EnrolmentCard from '../../components/EnrolmentCard'
 import DeleteButton from '../../components/DeleteButton'
 
 const Show = () => {
+  // course id from url 
   const { courseID } = useParams()
+
+  // function to handle navigation
   const navigate = useNavigate()
+
+  // authentication code from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // state variable to hold coures
   const [course, setCourse] = useState([])
 
+  // on first load get the selected coures
   useEffect(() => {
     getSelectedCourseShow(courseID, setCourse)
   }, [])
 
+  // navigate to the edit coures form
   const editCourse = () => {
     navigate(`/courses/edit/${courseID}`)
   }
 
+  // delete helper method
   const deleteMethod = () => {
     deleteCourse(course)
     navigate('/courses?success=delete-success-course')

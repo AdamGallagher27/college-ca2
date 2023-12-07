@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 const EnrolmentRow = ({enrolment, index}) => {
 
+  // navigate function
   const navigate = useNavigate()
 
+  // got to the show enrolment route
   const showEnrolment = () => {
     navigate(`/enrolments/${enrolment.id}`)
   }

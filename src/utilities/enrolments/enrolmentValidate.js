@@ -1,4 +1,5 @@
 
+// regular expression for enrolment form
 const fieldRegex = {
   "course_id": /^[0-9]+$/,
   "lecturer_id": /^[0-9-]+$/,
@@ -7,6 +8,7 @@ const fieldRegex = {
   "status" : /^[a-zA-Z0-9\s.,_!?]*$/
 }
 
+// get error messages
 const getErrorMessages = (formData) => {
   let errorMessages = {}
 
@@ -28,6 +30,7 @@ const getErrorMessages = (formData) => {
   return errorMessages
 }
 
+// check if an error exists
 const checkErrors = (formData) => {
   return Object.keys(getErrorMessages(formData)).length === 0
 }

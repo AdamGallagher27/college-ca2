@@ -1,4 +1,4 @@
-
+// regular expressions for lecturer forms
 const fieldRegex = {
   "name": /^[a-zA-Z0-9\s]+$/,
   "address": /^[a-zA-Z0-9\s.,!?]*$/,
@@ -6,6 +6,7 @@ const fieldRegex = {
   "email": /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
 }
 
+// get error messages
 const getErrorMessages = (formData) => {
   let errorMessages = {}
 
@@ -27,6 +28,7 @@ const getErrorMessages = (formData) => {
   return errorMessages
 }
 
+// check if errors exist
 const checkErrors = (formData) => {
   return Object.keys(getErrorMessages(formData)).length === 0
 }

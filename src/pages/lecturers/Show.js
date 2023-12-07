@@ -7,24 +7,35 @@ import DeleteButton from '../../components/DeleteButton'
 import EnrolmentCard from '../../components/EnrolmentCard'
 
 const Show = () => {
+  // lecturer id from url
   const { lecturerID } = useParams()
-  const navigate = useNavigate()
+
+  // authentication functions from app.js
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // navigate function
+  const navigate = useNavigate()
+
+  // state variable to hold selected lecturer
   const [lecturer, setLecturer] = useState([])
 
+  // on first load get the selected lecturer
   useEffect(() => {
     getSelectedLecturerShow(lecturerID, setLecturer)
   }, [])
 
+  // go to edit lecturer form
   const editLecturer = () => {
     navigate(`/lecturers/edit/${lecturerID}`)
   }
 
+  // delete helper method
   const deleteMethod = () => {
     deleteLecturer(lecturer)
     navigate('/lecturers?success=delete-success-lecturer')
   }
 
+  // variable for enrolment cards
   const enrolmentCards = !lecturer.enrolments ? '':  lecturer.enrolments.map((enrolment, index) => {
     return <EnrolmentCard key={index} name={enrolment.course.title} />
   })

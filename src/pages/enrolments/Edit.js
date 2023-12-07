@@ -10,13 +10,20 @@ import { getLecturerNames } from '../../utilities/lecturers/lecturerAPI'
 
 const Edit = () => {
 
+  // enrolment id from url 
   const { enrolmentID } = useParams()
+
+  // authentication code from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // function to handle navigation
   const navigate = useNavigate()
 
+  // state variables for lecturer and course drop downs
   const [lecturerNames, setLecturerNames] = useState([])
   const [courseNames, setCourseNames] = useState([])
 
+  // state variable to hold form state
   const [formData, setFormData] = useState({
     "course_id": "11",
     "lecturer_id": "11",
@@ -25,18 +32,24 @@ const Edit = () => {
     "status": "interested"
   })
 
+  // variable for client / server errors
   const [errorMessages, setErrorMessages] = useState({})
 
+  // on first load get the selected enrolment
+  // also get lecturer names and coures names for drop downs
   useEffect(() => {
     getSelectedEnrolmentEdit(enrolmentID, setFormData)
     getLecturerNames(setLecturerNames)
     getCourseTitles(setCourseNames)
   }, [])
 
+  // on form change update form state variable
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
+  // if no client errors exist make edit request to api and return to index with success message
+  // if client errors set error messages
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -49,6 +62,7 @@ const Edit = () => {
     }
   }
 
+  // drop downs for lecturers / courses
   const lecturerDropDownOptions = !lecturerNames ? '' : lecturerNames.map((lecturer, index) => {
     return <option value={lecturer.id} key={index}>{lecturer.name}</option>
   })

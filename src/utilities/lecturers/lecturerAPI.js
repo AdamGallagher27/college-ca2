@@ -13,6 +13,7 @@ const ENROLMENTS_API_DELETE = 'https://college-api.vercel.app/api/enrolments/'
 const token = localStorage.getItem('AUTH_TOKEN')
 
 
+// get every lecturer
 const getAllLecturers = (lecturerSetter) => {
   axios.get(LECTURERS_API_INDEX, {
     headers: {
@@ -28,6 +29,7 @@ const getAllLecturers = (lecturerSetter) => {
     })
 }
 
+// get the selected lecturer for show view
 const getSelectedLecturerShow = (lecturerID, lecturerSetter) => {
   axios.get(LECTURERS_API_SHOW + lecturerID, {
     headers: {
@@ -42,6 +44,7 @@ const getSelectedLecturerShow = (lecturerID, lecturerSetter) => {
     })
 }
 
+// get the selected lecturer for edit form
 const getSelectedLecturerEdit = (lecturerID, formSetter) => {
   axios.get(LECTURERS_API_SHOW + lecturerID, {
     headers: {
@@ -57,6 +60,7 @@ const getSelectedLecturerEdit = (lecturerID, formSetter) => {
     })
 }
 
+// edit lecturer
 const editLecturer = (lecturerID, formData, errorSetter) => {
   axios.put(LECTURERS_API_EDIT + lecturerID, formData, {
     headers: {
@@ -68,6 +72,7 @@ const editLecturer = (lecturerID, formData, errorSetter) => {
     })
 }
 
+// create a lecturer
 const createLecturer = (formData, errorSetter) => {
   axios.post(LECTURERS_API_CREATE, formData, {
     headers: {
@@ -80,6 +85,7 @@ const createLecturer = (formData, errorSetter) => {
     })
 }
 
+// get lecturer names / id for drop down
 const getLecturerNames = (lecturerSetter) => {
   axios.get(LECTURERS_API_INDEX, {
     headers: {
@@ -96,6 +102,7 @@ const getLecturerNames = (lecturerSetter) => {
     })
 }
 
+// delete lecturers enrolments
 const deleteLecturerEnrolments = (lecturer) => {
   lecturer.enrolments.forEach((enrolment) => {
     axios.delete(ENROLMENTS_API_DELETE + enrolment.id, {
@@ -107,6 +114,7 @@ const deleteLecturerEnrolments = (lecturer) => {
   })
 }
 
+// delete lecturer
 const deleteLecturer = (lecturer) => {
   deleteLecturerEnrolments(lecturer)
   axios.delete(LECTURERS_API_DELETE + lecturer.id, {

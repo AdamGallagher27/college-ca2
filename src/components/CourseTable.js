@@ -1,24 +1,49 @@
 import React, { useEffect, useState } from 'react'
 import CourseRow from './CourseRow'
 import { useNavigate } from 'react-router-dom'
+import { SearchBar } from './SearchBar'
+import { applySearchFilter } from '../utilities/applySearchFilter'
+
 
 const CourseTable = ({courses}) => {
 
   useEffect(() => {
     resetPagination()
-  }, [])
+    setFilteredCourses(courses)
+  }, [courses])
 
+  // state variables
+  const [filteredCourses, setFilteredCourses] = useState([])
   const [paginationLimit, setPaginationLimit] = useState(6)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // navigate function
   const navigate = useNavigate()
   
-  const resetPagination = () => setPaginationLimit(6)
+  // pagination helper functions
+  const resetPagination = () => setPaginationLimit(11)
   const loadMoreRows = () => setPaginationLimit(paginationLimit + 5)
 
+  // take user to create route
   const createCourse = () => {
     navigate('/courses/create')
   }
 
-  const courseRows = courses.map((course, index) =>{
+  // search helper function
+  const handleSearch = (searchPhrase) => {
+
+    // reset the pagination
+		resetPagination()
+
+    setSearchTerm(searchPhrase)
+
+    const searchFilter = applySearchFilter(searchPhrase, courses, 'title')
+
+    setFilteredCourses(searchFilter)
+  }
+
+  // course rows variable
+  const courseRows = filteredCourses.map((course, index) =>{
     if(index < paginationLimit){
       return <CourseRow key={index} course={course} index={index} />
     }
@@ -28,11 +53,12 @@ const CourseTable = ({courses}) => {
     return <p>no courses to show</p>
   }
 
+  
   return (
     <div style={{width: '80%'}}>
     <button onClick={createCourse} className="btn btn-success">Create New Course</button>
+    <SearchBar handleSearch={handleSearch} />
     <table className="table">
-      {/* head */}
       <thead>
         <tr>
           <th>Index</th>
@@ -45,7 +71,7 @@ const CourseTable = ({courses}) => {
         {courseRows}
       </tbody>
     </table>
-    {courses.length > paginationLimit ? <button onClick={loadMoreRows} className="btn btn-neutral">Load More Rows</button> : ''}
+    {filteredCourses.length > paginationLimit ? <button onClick={loadMoreRows} className="btn btn-neutral">Load More Rows</button> : ''}
     
   </div>
   )

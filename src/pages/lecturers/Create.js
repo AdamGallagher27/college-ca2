@@ -9,9 +9,13 @@ import { createLecturer } from '../../utilities/lecturers/lecturerAPI'
 
 const Create = () => {
   
+  // authentication functions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // function for navigation
   const navigate = useNavigate()
 
+  // state variable for form data
   const [formData, setFormData] = useState({
     "name": "",
     "address": "",
@@ -19,12 +23,16 @@ const Create = () => {
     "phone": "",
   })
 
+  // state variable to hold client / server error messages
   const [errorMessages, setErrorMessages] = useState({})
 
+  // update form state variable when form changes
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
+  // if there is no client errors make create request to api
+  // other wise set error messages
   const handleSubmit = (event) => {
     event.preventDefault()
     

@@ -5,10 +5,16 @@ import { useNavigate } from 'react-router-dom'
 import { Context } from '../App'
 
 const Home = () => {
+  // authentication code from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // variable to switch between register and login forms
   const [showRegister, setShowRegister] = useState(false)
+
+  // navigate function
   const navigate = useNavigate()
 
+  // helper function to switch form views
   const switchView = () => {
     setShowRegister(!showRegister)
   }

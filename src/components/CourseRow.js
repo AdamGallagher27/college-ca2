@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 const CourseRow = ({course, index}) => {
 
+  // navigate function
   const navigate = useNavigate()
 
+  // click handler
   const handleClick = () => {
     navigate(`/courses/show/${course.id}`)
   }

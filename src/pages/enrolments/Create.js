@@ -10,13 +10,17 @@ import { getLecturerNames } from '../../utilities/lecturers/lecturerAPI'
 
 const Create = () => {
 
-
+  // authentication functions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // function to handle navigation
   const navigate = useNavigate()
 
+  // state vairables form drop downs
   const [lecturerNames, setLecturerNames] = useState([])
   const [courseNames, setCourseNames] = useState([])
 
+  // state variable for form data
   const [formData, setFormData] = useState({
     "course_id": "11",
     "lecturer_id": "11",
@@ -25,17 +29,22 @@ const Create = () => {
     "status": "interested"
   })
 
+  // variable to hold client / server errors
   const [errorMessages, setErrorMessages] = useState({})
 
+  // get data for lecturer and coures drop downs
   useEffect(() => {
     getLecturerNames(setLecturerNames)
     getCourseTitles(setCourseNames)
   }, [])
 
+  // update form state on change
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
+  // if there is no client errors make create request to api
+  // other wise set error messages
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -48,6 +57,7 @@ const Create = () => {
     }
   }
 
+  // drop downs for lecturers and courses
   const lecturerDropDownOptions = !lecturerNames ? '' : lecturerNames.map((lecturer, index) => {
     return <option value={lecturer.id} key={index}>{lecturer.name}</option>
   })
@@ -57,8 +67,6 @@ const Create = () => {
   })
 
   if (!isAuthenticated) return <>you must be authenticated</>
-
-  // console.log(getLecturerNames())
 
   return (
     <div className="max-w-md mx-auto p-6 rounded-md shadow-md bg-base-200">

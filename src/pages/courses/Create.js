@@ -8,9 +8,13 @@ import { createCourse } from '../../utilities/courses/courseAPI'
 
 const Create = () => {
   
+  // authentication functions from app.js context
   const [isAuthenticated, onAuthenticated] = useContext(Context)
+
+  // navigate function
   const navigate = useNavigate()
 
+  // state variable to hold form state
   const [formData, setFormData] = useState({
     "title": "",
     "code": "",
@@ -19,12 +23,17 @@ const Create = () => {
     "level": "7"
   })
 
+  // state variable to hold client / server errors
   const [errorMessages, setErrorMessages] = useState({})
 
+  // update form state varaible on form change
   const handleForm = (event => {
     updateForm(event, setFormData)
   })
 
+  // submit create form 
+  // if no client errors create the course in the api
+  // else set error messages from client validation
   const handleSubmit = (event) => {
     event.preventDefault()
 

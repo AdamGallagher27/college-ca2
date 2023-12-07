@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 
 const LecturerRow = ({ lecturer, index }) => {
 
+  // function for navigation
   const navigate = useNavigate()
 
+  // go to the lecturer show page
   const showLecturer = () => {
     navigate(`/lecturers/${lecturer.id}`)
   }
